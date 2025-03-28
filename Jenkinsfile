@@ -106,6 +106,7 @@ def deployToEnv(env, port) {
         cd python-greetings
         pm2 delete greetings-app-$env || true
         pm2 start app.py --name greetings-app-$env -- --port $port
+        pm2 logs greetings-app-dev
     """
 }
 
@@ -121,6 +122,7 @@ def runTests(env) {
         
         cd course-js-api-framework
         npm install
+        sleep 10
         npm run greetings greetings_$env
     """
 }
