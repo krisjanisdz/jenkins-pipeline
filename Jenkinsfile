@@ -18,8 +18,8 @@ def installPipDeps() {
         git clone https://github.com/mtararujs/python-greetings
         cd python-greetings
         ls
-        python3 -m venv /opt/venv
-        source /opt/venv/bin/activate
+        python3 -m venv ./venv
+        source ./venv/bin/activate
         pip install -r requirements.txt
     '''
 }
