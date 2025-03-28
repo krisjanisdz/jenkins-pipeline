@@ -103,7 +103,7 @@ def deployToEnv(env, port) {
         )  
 
         cd python-greetings
-        pm2 delete greetings-app-$env || true
+        pm2 delete greetings-app-$env & EXIT /B 0
         pm2 start app.py --name greetings-app-$env -- --port $port
     """
 }
