@@ -17,11 +17,43 @@ pipeline {
                 }
             }
         }
+        stage('tests-on-dev') {
+            steps {
+                script {
+                    sh 'echo Testing development environment'
+                    runTests('dev')
+                }
+            }
+        }
+        stage('deploy-to-staging') {
+            steps {
+                script {
+                    sh 'echo Deploying to staging environment'
+                    deployToEnv('staging', 7002)
+                }
+            }
+        }
+        stage('tests-on-staging') {
+            steps {
+                script {
+                    sh 'echo Testing staging environment'
+                    runTests('staging')
+                }
+            }
+        }
         stage('deploy-to-preprod') {
             steps {
                 script {
                     sh 'echo Deploying to preprod environment'
                     deployToEnv('preprod', 7003)
+                }
+            }
+        }
+        stage('tests-on-preprod') {
+            steps {
+                script {
+                    sh 'echo Testing preprod environment'
+                    runTests('preprod')
                 }
             }
         }
@@ -33,7 +65,14 @@ pipeline {
                 }
             }
         }
-
+        stage('tests-on-prod') {
+            steps {
+                script {
+                    sh 'echo Testing production environment'
+                    runTests('prod')
+                }
+            }
+        }
     }
 }
 
@@ -67,5 +106,21 @@ def deployToEnv(env, port) {
         cd python-greetings
         pm2 delete greetings-app-$env || true
         pm2 start app.py --name greetings-app-$env -- --port $port
+    """
+}
+
+def runTests(env) {
+    sh """
+        echo "Tiek izpildīti testi $env videi..."
+
+        if [ ! -d "course-js-api-framework" ]; then
+            git clone https://github.com/mtararujs/course-js-api-framework
+        else
+            echo "Repository already exists, skipping clone."
+        fi
+        
+        cd course-js-api-framework
+        npm install
+        npm run greetings greetings_$env
     """
 }
