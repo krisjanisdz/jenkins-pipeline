@@ -88,8 +88,7 @@ def installPipDeps() {
 
         cd python-greetings
         ls
-        python3 -m venv ./venv
-        bash -c "source ./venv/bin/activate && pip install -r requirements.txt"
+        pip install -r requirements.txt
     '''
 }
 
@@ -106,7 +105,6 @@ def deployToEnv(env, port) {
         cd python-greetings
         pm2 delete greetings-app-$env || true
         pm2 start app.py --name greetings-app-$env -- --port $port
-        pm2 logs greetings-app-dev
     """
 }
 
@@ -117,12 +115,11 @@ def runTests(env) {
         if [ ! -d "course-js-api-framework" ]; then
             git clone https://github.com/mtararujs/course-js-api-framework
         else
-            echo "Repository already exists, skipping clone."
+            echo "Repozitorijs jau eksistē, izlaižam klonēšanu."
         fi
         
         cd course-js-api-framework
         npm install
-        sleep 10
         npm run greetings greetings_$env
     """
 }
