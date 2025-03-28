@@ -4,7 +4,7 @@ pipeline {
         stage('install-pip-deps') {
             steps {
                 script {
-                    sh 'echo Installing dependencies...'
+                    bat 'echo Installing dependencies...'
                     installPipDeps()
                 }
             }
@@ -12,7 +12,7 @@ pipeline {
         stage('deploy-to-dev') {
             steps {
                 script {
-                    sh 'echo Deploying to development environment'
+                    bat 'echo Deploying to development environment'
                     deployToEnv('dev', 7001)
                 }
             }
@@ -20,7 +20,7 @@ pipeline {
         stage('tests-on-dev') {
             steps {
                 script {
-                    sh 'echo Testing development environment'
+                    bat 'echo Testing development environment'
                     runTests('dev')
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
         stage('deploy-to-staging') {
             steps {
                 script {
-                    sh 'echo Deploying to staging environment'
+                    bat 'echo Deploying to staging environment'
                     deployToEnv('staging', 7002)
                 }
             }
@@ -36,7 +36,7 @@ pipeline {
         stage('tests-on-staging') {
             steps {
                 script {
-                    sh 'echo Testing staging environment'
+                    bat 'echo Testing staging environment'
                     runTests('staging')
                 }
             }
@@ -44,7 +44,7 @@ pipeline {
         stage('deploy-to-preprod') {
             steps {
                 script {
-                    sh 'echo Deploying to preprod environment'
+                    bat 'echo Deploying to preprod environment'
                     deployToEnv('preprod', 7003)
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
         stage('tests-on-preprod') {
             steps {
                 script {
-                    sh 'echo Testing preprod environment'
+                    bat 'echo Testing preprod environment'
                     runTests('preprod')
                 }
             }
@@ -60,7 +60,7 @@ pipeline {
         stage('deploy-to-prod') {
             steps {
                 script {
-                    sh 'echo Deploying to production environment'
+                    bat 'echo Deploying to production environment'
                     deployToEnv('prod', 7004)
                 }
             }
@@ -68,7 +68,7 @@ pipeline {
         stage('tests-on-prod') {
             steps {
                 script {
-                    sh 'echo Testing production environment'
+                    bat 'echo Testing production environment'
                     runTests('prod')
                 }
             }
@@ -77,14 +77,14 @@ pipeline {
 }
 
 def installPipDeps() {
-    sh '''
+    bat '''
         echo "Klonē 'python-greetings' repozitoriju..."
 
-        if [ ! -d "python-greetings" ]; then
+        if not exist "python-greetings" (
             git clone https://github.com/mtararujs/python-greetings
-        else
+        ) else (
             echo "Repozitorijs jau eksistē"
-        fi
+        )
 
         cd python-greetings
         ls
@@ -93,14 +93,14 @@ def installPipDeps() {
 }
 
 def deployToEnv(env, port) {
-    sh """
+    bat """
         echo "Izvieto $env vidē..."
 
-        if [ ! -d "python-greetings" ]; then
+        if not exist "python-greetings" (
             git clone https://github.com/mtararujs/python-greetings
-        else
+        ) else (
             echo "Repozitorijs jau eksistē"
-        fi  
+        )  
 
         cd python-greetings
         pm2 delete greetings-app-$env || true
@@ -109,14 +109,14 @@ def deployToEnv(env, port) {
 }
 
 def runTests(env) {
-    sh """
+    bat """
         echo "Tiek izpildīti testi $env videi..."
 
-        if [ ! -d "course-js-api-framework" ]; then
+        if not exist "course-js-api-framework" (
             git clone https://github.com/mtararujs/course-js-api-framework
-        else
+        ) else (
             echo "Repozitorijs jau eksistē, izlaižam klonēšanu."
-        fi
+        )
         
         cd course-js-api-framework
         npm install
