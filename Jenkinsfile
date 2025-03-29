@@ -134,8 +134,6 @@ def runTests(env) {
     bat """
         echo "Tiek izpildīti testi $env videi..."
 
-        where npm
-
         if not exist "course-js-api-framework" (
             git clone https://github.com/mtararujs/course-js-api-framework
         ) else (
@@ -143,20 +141,8 @@ def runTests(env) {
         )
         
         cd course-js-api-framework
-        
-        call npm install > npm_install_output.log 2>&1
-        type npm_install_output.log
-
-        echo "Running tests..."
-        echo "Available npm scripts:"
-       
+        call npm install 
         echo "Running the greetings test script..."
-        npm run greetings greetings_$env > greetings_output.log 2>&1
-        type greetings_output.log
-
-        if %ERRORLEVEL% NEQ 0 (
-            echo "Tests failed for $env!" 
-            exit /b 1
-        )
+        npm run greetings greetings_$env
     """
 }
