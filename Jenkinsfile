@@ -114,7 +114,7 @@ def deployToEnv(env, port) {
 
         echo "te vel strada."
 
-        pm2 start app.py --name greetingss-app-$env -- --port $port
+        pm2 start apps.py --name greetings-app-$env -- --port $port
     """
 }
 
