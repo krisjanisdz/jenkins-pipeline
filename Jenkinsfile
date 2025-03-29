@@ -137,7 +137,13 @@ def runTests(env) {
         echo "Running tests..."
         echo "Available npm scripts:"
         npm run
-        call npm run greetings greetings_$env || (
+       
+       
+        echo "Running the greetings test script..."
+        call npm run greetings greetings_$env > greetings_output.log 2>&1
+        type greetings_output.log
+
+        if %ERRORLEVEL% NEQ 0 (
             echo "Tests failed for $env!" 
             exit /b 1
         )
