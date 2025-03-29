@@ -121,7 +121,7 @@ def runTests(env) {
     bat """
         echo "Tiek izpildīti testi $env videi..."
 
-        bat "where npm"
+        where npm
 
         if not exist "course-js-api-framework" (
             git clone https://github.com/mtararujs/course-js-api-framework
