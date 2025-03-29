@@ -106,7 +106,7 @@ def deployToEnv(env, port) {
         set HOMEPATH=C:\\Users\\%USERNAME%\\AppData\\Roaming
         set HOME=%HOMEPATH%
 
-        pm2 delete greetings-app-$env &  & set "errorlevel=0"
+        pm2 delete greetings-app-$env & set "errorlevel=0"
 
         if %ERRORLEVEL% NEQ 0 (
             echo "No running process found for greetings-app-$env, skipping deletion."
