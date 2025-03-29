@@ -111,6 +111,8 @@ def deployToEnv(env, port) {
             echo "No running process found for greetings-app-$env, skipping deletion."
         )
 
+        timeout /t 3
+
         echo "te vel strada."
 
         pm2 start app.py --name greetings-app-$env -- --port $port
@@ -138,7 +140,7 @@ def runTests(env) {
         echo "Available npm scripts:"
         npm run
        
-       
+        timeout /t 3
         echo "Running the greetings test script..."
         call npm run greetings greetings_$env > greetings_output.log 2>&1
         type greetings_output.log
