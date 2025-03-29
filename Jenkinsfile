@@ -25,22 +25,7 @@ pipeline {
                 }
             }
         }
-        stage('deploy-to-staging') {
-            steps {
-                script {
-                    bat 'echo Deploying to staging environment'
-                    deployToEnv('staging', 7002)
-                }
-            }
-        }
-        stage('tests-on-staging') {
-            steps {
-                script {
-                    bat 'echo Testing staging environment'
-                    runTests('staging')
-                }
-            }
-        }
+        
         stage('deploy-to-preprod') {
             steps {
                 script {
@@ -139,7 +124,7 @@ def runTests(env) {
         ) else (
             echo "Repozitorijs jau eksistē, izlaižam klonēšanu."
         )
-        
+
         cd course-js-api-framework
         call npm install 
         echo "Running the greetings test script..."
