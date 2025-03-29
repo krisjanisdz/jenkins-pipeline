@@ -130,7 +130,7 @@ def runTests(env) {
         cd course-js-api-framework
         npm install
         echo "Running tests..."
-        npm run greetings greetings_$env || (
+        call npm run greetings greetings_$env || (
             echo "Tests failed for $env!" 
             exit /b 1
         )
