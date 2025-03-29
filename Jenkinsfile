@@ -106,13 +106,6 @@ def deployToEnv(env, port) {
         set HOMEPATH=C:\\Users\\%USERNAME%\\AppData\\Roaming
         set HOME=%HOMEPATH%
 
-        pm2 delete greetings-app-$env || EXIT /B 0
-        if ERRORLEVEL 1 (
-            echo "No running process found for greetings-app-$env, skipping deletion."
-        )
-
-        timeout /t 3
-
         echo "te vel strada."
 
         pm2 start app.py --name greetings-app-$env -- --port $port
