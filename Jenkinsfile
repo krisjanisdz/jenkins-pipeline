@@ -105,7 +105,7 @@ def deployToEnv(env, port) {
 
         echo "Checking if the application is already running..."
 
-        pm2 delete greetings-app-$env & EXIT /B 0
+        pm2 delete greetings-app-$env & set "errorlevel=0"
 
         pm2 start app.py --name greetings-app-$env -- --port $port
     """
