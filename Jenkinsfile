@@ -105,7 +105,10 @@ def deployToEnv(env, port) {
 
         echo "Checking if the application is already running..."
 
-        pm2 delete greetings-app-$env & set "errorlevel=0"
+        pm2 delete greetings-app-$env
+        IF %ERRORLEVEL% NEQ 0 (
+            echo "No running process found or failed to delete, continuing..."
+        )
 
         pm2 start app.py --name greetings-app-$env -- --port $port
     """
