@@ -25,7 +25,22 @@ pipeline {
                 }
             }
         }
-        
+        stage('deploy-to-staging') {
+            steps {
+                script {
+                    bat 'echo Deploying to development environment'
+                    deployToEnv('stg', 7002)
+                }
+            }
+        }
+        stage('tests-on-staging') {
+            steps {
+                script {
+                    bat 'echo Testing development environment'
+                    runTests('stg')
+                }
+            }
+        }
         stage('deploy-to-preprod') {
             steps {
                 script {
@@ -108,8 +123,6 @@ def deployToEnv(env, port) {
         ) else (
             echo "No running process found for greetings-app-$env, skipping deletion."
         )
-
-        echo "te vel strada."
 
         pm2 start app.py --name greetings-app-$env -- --port $port
     """
